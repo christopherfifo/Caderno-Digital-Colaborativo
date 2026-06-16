@@ -8,4 +8,8 @@ import java.util.List;
 public interface MidiaRepository extends JpaRepository<Midia, Long> {
 
     List<Midia> findByDisciplinaContainingIgnoreCase(String disciplina);
+
+    List<Midia> findByProfessorResponsavelContainingIgnoreCase(String professor);
+
+    List<Midia> findByDisciplinaContainingIgnoreCaseAndProfessorResponsavelContainingIgnoreCase(String disciplina, String professor);
 }

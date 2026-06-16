@@ -10,9 +10,11 @@ import br.edu.ifsp.cadernodigital.repository.UsuarioRepository;
 import br.edu.ifsp.cadernodigital.service.PontuacaoService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,13 +61,22 @@ public class MidiaController {
     }
 
     @GetMapping
-    public List<MidiaResponse> listar(@RequestParam(required = false) String disciplina) {
+    public List<MidiaResponse> listar(
+            @RequestParam(required = false) String disciplina,
+            @RequestParam(required = false) String professor) {
         List<Midia> midias;
 
-        if (disciplina == null || disciplina.isBlank()) {
-            midias = midiaRepository.findAll();
-        } else {
+        boolean temDisciplina = disciplina != null && !disciplina.isBlank();
+        boolean temProfessor = professor != null && !professor.isBlank();
+
+        if (temDisciplina && temProfessor) {
+            midias = midiaRepository.findByDisciplinaContainingIgnoreCaseAndProfessorResponsavelContainingIgnoreCase(disciplina, professor);
+        } else if (temDisciplina) {
             midias = midiaRepository.findByDisciplinaContainingIgnoreCase(disciplina);
+        } else if (temProfessor) {
+            midias = midiaRepository.findByProfessorResponsavelContainingIgnoreCase(professor);
+        } else {
+            midias = midiaRepository.findAll();
         }
 
         return midias.stream()
@@ -76,6 +87,28 @@ public class MidiaController {
     @GetMapping("/{id}")
     public MidiaResponse buscarPorId(@PathVariable Long id) {
         return MidiaResponse.fromEntity(buscarMidia(id));
+    }
+
+    @PutMapping("/{id}")
+    public MidiaResponse atualizar(@PathVariable Long id, @RequestBody @Valid MidiaRequest request) {
+        Midia midia = buscarMidia(id);
+        midia.setTitulo(request.titulo());
+        midia.setDescricao(request.descricao());
+        midia.setUrlArquivo(request.urlArquivo());
+        midia.setTipo(request.tipo());
+        midia.setDataHoraAula(request.dataHoraAula());
+        midia.setDisciplina(request.disciplina());
+        midia.setProfessorResponsavel(request.professorResponsavel());
+
+        Midia midiaAtualizada = midiaRepository.save(midia);
+        return MidiaResponse.fromEntity(midiaAtualizada);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long id) {
+        Midia midia = buscarMidia(id);
+        midiaRepository.delete(midia);
     }
 
     private Usuario buscarUsuario(Long id) {

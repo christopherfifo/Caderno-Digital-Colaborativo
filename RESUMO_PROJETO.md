@@ -139,9 +139,21 @@ Lista todos os usuários.
 
 Busca um usuário pelo id.
 
+`PUT /api/usuarios/{id}`
+
+Atualiza os dados de um usuário (nome, e-mail e tipo).
+
+`DELETE /api/usuarios/{id}`
+
+Remove um usuário do sistema.
+
 `GET /api/usuarios/ranking`
 
-Lista os usuários ordenados por pontuação, do maior para o menor.
+Lista os usuários ordenados por pontuação global, do maior para o menor.
+
+`GET /api/usuarios/ranking?disciplina=web`
+
+Lista o ranking de usuários que tiveram atividades (mídias ou comentários) em uma disciplina específica.
 
 ### Mídias
 
@@ -168,13 +180,21 @@ Exemplo:
 
 Lista todas as mídias.
 
-`GET /api/midias?disciplina=web`
+`GET /api/midias?disciplina=web&professor=silva`
 
-Lista mídias filtrando por parte do nome da disciplina.
+Lista mídias filtrando por parte do nome da disciplina e/ou nome do professor.
 
 `GET /api/midias/{id}`
 
 Busca uma mídia pelo id.
+
+`PUT /api/midias/{id}`
+
+Atualiza os dados de uma mídia (título, descrição, etc.).
+
+`DELETE /api/midias/{id}`
+
+Remove uma mídia do sistema.
 
 ### Comentários e respostas
 
