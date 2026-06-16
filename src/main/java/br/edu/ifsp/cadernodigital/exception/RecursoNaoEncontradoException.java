@@ -1,0 +1,8 @@
+package br.edu.ifsp.cadernodigital.exception;
+
+public class RecursoNaoEncontradoException extends RuntimeException {
+
+    public RecursoNaoEncontradoException(String mensagem) {
+        super(mensagem);
+    }
+}
