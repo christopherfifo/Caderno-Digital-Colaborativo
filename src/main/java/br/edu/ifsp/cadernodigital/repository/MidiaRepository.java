@@ -1,15 +1,18 @@
 package br.edu.ifsp.cadernodigital.repository;
 
 import br.edu.ifsp.cadernodigital.model.Midia;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface MidiaRepository extends JpaRepository<Midia, Long> {
+  List<Midia> findByDisciplinaNomeContainingIgnoreCase(String disciplina);
 
-    List<Midia> findByDisciplinaContainingIgnoreCase(String disciplina);
+  List<Midia> findByAulaProfessorNomeContainingIgnoreCase(String professor);
 
-    List<Midia> findByProfessorResponsavelContainingIgnoreCase(String professor);
-
-    List<Midia> findByDisciplinaContainingIgnoreCaseAndProfessorResponsavelContainingIgnoreCase(String disciplina, String professor);
+  List<
+    Midia
+  > findByDisciplinaNomeContainingIgnoreCaseAndAulaProfessorNomeContainingIgnoreCase(
+    String disciplina,
+    String professor
+  );
 }

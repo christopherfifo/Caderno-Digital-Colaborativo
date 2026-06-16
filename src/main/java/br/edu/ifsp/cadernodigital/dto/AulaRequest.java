@@ -2,10 +2,12 @@ package br.edu.ifsp.cadernodigital.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
-public record MaterialComplementarRequest(
+public record AulaRequest(
   @NotBlank String titulo,
   String descricao,
-  @NotBlank String link,
-  @NotNull Long autorId
+  @NotNull LocalDateTime dataHora,
+  @NotNull Long disciplinaId,
+  @NotNull Long professorId
 ) {}

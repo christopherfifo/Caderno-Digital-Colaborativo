@@ -10,8 +10,8 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "materiais_complementares")
-public class MaterialComplementar {
+@Table(name = "aulas")
+public class Aula {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,33 +21,30 @@ public class MaterialComplementar {
 
   private String descricao;
 
-  private String link;
-
-  private LocalDateTime criadoEm;
+  private LocalDateTime dataHora;
 
   @ManyToOne
-  @JoinColumn(name = "midia_id")
-  private Midia midia;
+  @JoinColumn(name = "disciplina_id", nullable = false)
+  private Disciplina disciplina;
 
   @ManyToOne
-  @JoinColumn(name = "autor_id")
-  private Usuario autor;
+  @JoinColumn(name = "professor_id", nullable = false)
+  private Usuario professor;
 
-  public MaterialComplementar() {}
+  public Aula() {}
 
-  public MaterialComplementar(
+  public Aula(
     String titulo,
     String descricao,
-    String link,
-    Midia midia,
-    Usuario autor
+    LocalDateTime dataHora,
+    Disciplina disciplina,
+    Usuario professor
   ) {
     this.titulo = titulo;
     this.descricao = descricao;
-    this.link = link;
-    this.midia = midia;
-    this.autor = autor;
-    this.criadoEm = LocalDateTime.now();
+    this.dataHora = dataHora;
+    this.disciplina = disciplina;
+    this.professor = professor;
   }
 
   public Long getId() {
@@ -74,35 +71,27 @@ public class MaterialComplementar {
     this.descricao = descricao;
   }
 
-  public String getLink() {
-    return link;
+  public LocalDateTime getDataHora() {
+    return dataHora;
   }
 
-  public void setLink(String link) {
-    this.link = link;
+  public void setDataHora(LocalDateTime dataHora) {
+    this.dataHora = dataHora;
   }
 
-  public LocalDateTime getCriadoEm() {
-    return criadoEm;
+  public Disciplina getDisciplina() {
+    return disciplina;
   }
 
-  public void setCriadoEm(LocalDateTime criadoEm) {
-    this.criadoEm = criadoEm;
+  public void setDisciplina(Disciplina disciplina) {
+    this.disciplina = disciplina;
   }
 
-  public Midia getMidia() {
-    return midia;
+  public Usuario getProfessor() {
+    return professor;
   }
 
-  public void setMidia(Midia midia) {
-    this.midia = midia;
-  }
-
-  public Usuario getAutor() {
-    return autor;
-  }
-
-  public void setAutor(Usuario autor) {
-    this.autor = autor;
+  public void setProfessor(Usuario professor) {
+    this.professor = professor;
   }
 }

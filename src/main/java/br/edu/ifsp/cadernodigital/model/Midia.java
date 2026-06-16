@@ -10,132 +10,141 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "midias")
 public class Midia {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String titulo;
+  private String titulo;
 
-    private String descricao;
+  private String descricao;
 
-    private String urlArquivo;
+  private String urlArquivo;
 
-    @Enumerated(EnumType.STRING)
-    private TipoMidia tipo;
+  @Enumerated(EnumType.STRING)
+  private TipoMidia tipo;
 
-    private LocalDateTime dataHoraAula;
+  private LocalDateTime dataHoraAula;
 
-    private String disciplina;
+  @ManyToOne
+  @JoinColumn(name = "disciplina_id")
+  private Disciplina disciplina;
 
-    private String professorResponsavel;
+  @ManyToOne
+  @JoinColumn(name = "aula_id")
+  private Aula aula;
 
-    private LocalDateTime criadoEm;
+  private LocalDateTime criadoEm;
 
-    @ManyToOne
-    @JoinColumn(name = "autor_id")
-    private Usuario autor;
+  @ManyToOne
+  @JoinColumn(name = "autor_id")
+  private Usuario autor;
 
-    public Midia() {
-    }
+  public Midia() {}
 
-    public Midia(String titulo, String descricao, String urlArquivo, TipoMidia tipo,
-                 LocalDateTime dataHoraAula, String disciplina, String professorResponsavel,
-                 Usuario autor) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.urlArquivo = urlArquivo;
-        this.tipo = tipo;
-        this.dataHoraAula = dataHoraAula;
-        this.disciplina = disciplina;
-        this.professorResponsavel = professorResponsavel;
-        this.autor = autor;
-        this.criadoEm = LocalDateTime.now();
-    }
+  public Midia(
+    String titulo,
+    String descricao,
+    String urlArquivo,
+    TipoMidia tipo,
+    LocalDateTime dataHoraAula,
+    Disciplina disciplina,
+    Aula aula,
+    Usuario autor
+  ) {
+    this.titulo = titulo;
+    this.descricao = descricao;
+    this.urlArquivo = urlArquivo;
+    this.tipo = tipo;
+    this.dataHoraAula = dataHoraAula;
+    this.disciplina = disciplina;
+    this.aula = aula;
+    this.autor = autor;
+    this.criadoEm = LocalDateTime.now();
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getTitulo() {
-        return titulo;
-    }
+  public String getTitulo() {
+    return titulo;
+  }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+  public void setTitulo(String titulo) {
+    this.titulo = titulo;
+  }
 
-    public String getDescricao() {
-        return descricao;
-    }
+  public String getDescricao() {
+    return descricao;
+  }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+  public void setDescricao(String descricao) {
+    this.descricao = descricao;
+  }
 
-    public String getUrlArquivo() {
-        return urlArquivo;
-    }
+  public String getUrlArquivo() {
+    return urlArquivo;
+  }
 
-    public void setUrlArquivo(String urlArquivo) {
-        this.urlArquivo = urlArquivo;
-    }
+  public void setUrlArquivo(String urlArquivo) {
+    this.urlArquivo = urlArquivo;
+  }
 
-    public TipoMidia getTipo() {
-        return tipo;
-    }
+  public TipoMidia getTipo() {
+    return tipo;
+  }
 
-    public void setTipo(TipoMidia tipo) {
-        this.tipo = tipo;
-    }
+  public void setTipo(TipoMidia tipo) {
+    this.tipo = tipo;
+  }
 
-    public LocalDateTime getDataHoraAula() {
-        return dataHoraAula;
-    }
+  public LocalDateTime getDataHoraAula() {
+    return dataHoraAula;
+  }
 
-    public void setDataHoraAula(LocalDateTime dataHoraAula) {
-        this.dataHoraAula = dataHoraAula;
-    }
+  public void setDataHoraAula(LocalDateTime dataHoraAula) {
+    this.dataHoraAula = dataHoraAula;
+  }
 
-    public String getDisciplina() {
-        return disciplina;
-    }
+  public Disciplina getDisciplina() {
+    return disciplina;
+  }
 
-    public void setDisciplina(String disciplina) {
-        this.disciplina = disciplina;
-    }
+  public void setDisciplina(Disciplina disciplina) {
+    this.disciplina = disciplina;
+  }
 
-    public String getProfessorResponsavel() {
-        return professorResponsavel;
-    }
+  public Aula getAula() {
+    return aula;
+  }
 
-    public void setProfessorResponsavel(String professorResponsavel) {
-        this.professorResponsavel = professorResponsavel;
-    }
+  public void setAula(Aula aula) {
+    this.aula = aula;
+  }
 
-    public LocalDateTime getCriadoEm() {
-        return criadoEm;
-    }
+  public LocalDateTime getCriadoEm() {
+    return criadoEm;
+  }
 
-    public void setCriadoEm(LocalDateTime criadoEm) {
-        this.criadoEm = criadoEm;
-    }
+  public void setCriadoEm(LocalDateTime criadoEm) {
+    this.criadoEm = criadoEm;
+  }
 
-    public Usuario getAutor() {
-        return autor;
-    }
+  public Usuario getAutor() {
+    return autor;
+  }
 
-    public void setAutor(Usuario autor) {
-        this.autor = autor;
-    }
+  public void setAutor(Usuario autor) {
+    this.autor = autor;
+  }
 }
