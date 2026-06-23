@@ -1,9 +1,8 @@
-package br.edu.ifsp.cadernodigital.dto;
+package br.edu.ifsp.cadernodigital.midia.application.dto;
 
-import br.edu.ifsp.cadernodigital.model.enums.TipoMidia;
+import br.edu.ifsp.cadernodigital.midia.domain.model.TipoMidia;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 
 public record MidiaRequest(
@@ -15,5 +14,4 @@ public record MidiaRequest(
         @NotBlank String disciplina,
         @NotBlank String professorResponsavel,
         @NotNull Long autorId
-) {
-}
+) {}

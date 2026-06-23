@@ -1,8 +1,7 @@
-package br.edu.ifsp.cadernodigital.dto;
+package br.edu.ifsp.cadernodigital.midia.application.dto;
 
-import br.edu.ifsp.cadernodigital.model.Midia;
-import br.edu.ifsp.cadernodigital.model.enums.TipoMidia;
-
+import br.edu.ifsp.cadernodigital.midia.domain.model.Midia;
+import br.edu.ifsp.cadernodigital.midia.domain.model.TipoMidia;
 import java.time.LocalDateTime;
 
 public record MidiaResponse(
@@ -18,7 +17,7 @@ public record MidiaResponse(
         Long autorId,
         String nomeAutor
 ) {
-    public static MidiaResponse fromEntity(Midia midia) {
+    public static MidiaResponse fromDomain(Midia midia, String nomeAutor) {
         return new MidiaResponse(
                 midia.getId(),
                 midia.getTitulo(),
@@ -29,8 +28,8 @@ public record MidiaResponse(
                 midia.getDisciplina(),
                 midia.getProfessorResponsavel(),
                 midia.getCriadoEm(),
-                midia.getAutor().getId(),
-                midia.getAutor().getNome()
+                midia.getAutorId(),
+                nomeAutor
         );
     }
 }

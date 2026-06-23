@@ -4,10 +4,10 @@ import br.edu.ifsp.cadernodigital.dto.MaterialComplementarRequest;
 import br.edu.ifsp.cadernodigital.dto.MaterialComplementarResponse;
 import br.edu.ifsp.cadernodigital.exception.RecursoNaoEncontradoException;
 import br.edu.ifsp.cadernodigital.model.MaterialComplementar;
-import br.edu.ifsp.cadernodigital.model.Midia;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaEntity;
 import br.edu.ifsp.cadernodigital.model.Usuario;
 import br.edu.ifsp.cadernodigital.repository.MaterialComplementarRepository;
-import br.edu.ifsp.cadernodigital.repository.MidiaRepository;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaJpaRepository;
 import br.edu.ifsp.cadernodigital.repository.UsuarioRepository;
 import br.edu.ifsp.cadernodigital.service.PontuacaoService;
 import jakarta.validation.Valid;
@@ -27,12 +27,12 @@ import java.util.List;
 public class MaterialComplementarController {
 
     private final MaterialComplementarRepository materialRepository;
-    private final MidiaRepository midiaRepository;
+    private final MidiaJpaRepository midiaRepository;
     private final UsuarioRepository usuarioRepository;
     private final PontuacaoService pontuacaoService;
 
     public MaterialComplementarController(MaterialComplementarRepository materialRepository,
-                                          MidiaRepository midiaRepository,
+                                          MidiaJpaRepository midiaRepository,
                                           UsuarioRepository usuarioRepository,
                                           PontuacaoService pontuacaoService) {
         this.materialRepository = materialRepository;
@@ -45,7 +45,7 @@ public class MaterialComplementarController {
     @ResponseStatus(HttpStatus.CREATED)
     public MaterialComplementarResponse criar(@PathVariable Long midiaId,
                                               @RequestBody @Valid MaterialComplementarRequest request) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
         Usuario autor = buscarUsuario(request.autorId());
 
         MaterialComplementar material = new MaterialComplementar(
@@ -64,7 +64,7 @@ public class MaterialComplementarController {
 
     @GetMapping
     public List<MaterialComplementarResponse> listar(@PathVariable Long midiaId) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
 
         return materialRepository.findByMidiaOrderByCriadoEmDesc(midia)
                 .stream()
@@ -72,7 +72,7 @@ public class MaterialComplementarController {
                 .toList();
     }
 
-    private Midia buscarMidia(Long id) {
+    private MidiaEntity buscarMidia(Long id) {
         return midiaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Mídia não encontrada."));
     }

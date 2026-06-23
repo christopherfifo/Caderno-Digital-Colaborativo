@@ -28,7 +28,7 @@ public class MaterialComplementar {
 
     @ManyToOne
     @JoinColumn(name = "midia_id")
-    private Midia midia;
+    private MidiaEntity midia;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")
@@ -37,7 +37,7 @@ public class MaterialComplementar {
     public MaterialComplementar() {
     }
 
-    public MaterialComplementar(String titulo, String descricao, String link, Midia midia, Usuario autor) {
+    public MaterialComplementar(String titulo, String descricao, String link, MidiaEntity midia, Usuario autor) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.link = link;
@@ -86,11 +86,11 @@ public class MaterialComplementar {
         this.criadoEm = criadoEm;
     }
 
-    public Midia getMidia() {
+    public MidiaEntity getMidia() {
         return midia;
     }
 
-    public void setMidia(Midia midia) {
+    public void setMidia(MidiaEntity midia) {
         this.midia = midia;
     }
 

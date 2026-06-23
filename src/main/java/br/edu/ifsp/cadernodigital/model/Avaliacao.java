@@ -36,7 +36,7 @@ public class Avaliacao {
 
     @ManyToOne
     @JoinColumn(name = "midia_id")
-    private Midia midia;
+    private MidiaEntity midia;
 
     @ManyToOne
     @JoinColumn(name = "comentario_id")
@@ -45,7 +45,7 @@ public class Avaliacao {
     public Avaliacao() {
     }
 
-    public Avaliacao(Integer nota, String comentario, TipoAvaliacao tipo, Usuario usuario, Midia midia,
+    public Avaliacao(Integer nota, String comentario, TipoAvaliacao tipo, Usuario usuario, MidiaEntity midia,
                      Comentario comentarioAvaliado) {
         this.nota = nota;
         this.comentario = comentario;
@@ -104,11 +104,11 @@ public class Avaliacao {
         this.usuario = usuario;
     }
 
-    public Midia getMidia() {
+    public MidiaEntity getMidia() {
         return midia;
     }
 
-    public void setMidia(Midia midia) {
+    public void setMidia(MidiaEntity midia) {
         this.midia = midia;
     }
 
