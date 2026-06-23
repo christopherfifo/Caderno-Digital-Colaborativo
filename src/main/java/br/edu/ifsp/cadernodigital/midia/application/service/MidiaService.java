@@ -45,22 +45,21 @@ public class MidiaService {
         return MidiaResponse.fromDomain(midiaSalva, nomeAutor);
     }
 
-    public List<MidiaResponse> listar(String disciplina, String professor) {
+    public List<MidiaResponse> listar(String disciplina, String professor, java.time.LocalDate data) {
         List<Midia> midias;
         boolean temDisciplina = disciplina != null && !disciplina.isBlank();
         boolean temProfessor = professor != null && !professor.isBlank();
 
-        if (temDisciplina && temProfessor) {
-            midias = midiaRepository.buscarPorDisciplinaEProfessor(disciplina, professor);
-        } else if (temDisciplina) {
-            midias = midiaRepository.buscarPorDisciplina(disciplina);
-        } else if (temProfessor) {
-            midias = midiaRepository.buscarPorProfessor(professor);
+        if (temDisciplina || temProfessor) {
+            midias = midiaRepository.buscarPorFiltros(
+                    temDisciplina ? disciplina : null, 
+                    temProfessor ? professor : null);
         } else {
             midias = midiaRepository.listarTodas();
         }
 
         return midias.stream()
+                .filter(m -> data == null || (m.getDataHoraAula() != null && m.getDataHoraAula().toLocalDate().equals(data)))
                 .map(m -> MidiaResponse.fromDomain(m, usuarioGateway.buscarNomeAutor(m.getAutorId())))
                 .collect(Collectors.toList());
     }

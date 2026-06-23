@@ -28,8 +28,9 @@ public class MidiaController {
     @GetMapping
     public List<MidiaResponse> listar(
             @RequestParam(required = false) String disciplina,
-            @RequestParam(required = false) String professor) {
-        return midiaService.listar(disciplina, professor);
+            @RequestParam(required = false) String professor,
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE) java.time.LocalDate data) {
+        return midiaService.listar(disciplina, professor, data);
     }
 
     @GetMapping("/{id}")

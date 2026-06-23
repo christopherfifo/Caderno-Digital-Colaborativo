@@ -8,8 +8,6 @@ public interface MidiaRepository {
     Midia salvar(Midia midia);
     Optional<Midia> buscarPorId(Long id);
     List<Midia> listarTodas();
-    List<Midia> buscarPorDisciplina(String disciplina);
-    List<Midia> buscarPorProfessor(String professor);
-    List<Midia> buscarPorDisciplinaEProfessor(String disciplina, String professor);
+    List<Midia> buscarPorFiltros(String disciplina, String professor);
     void excluir(Midia midia);
 }

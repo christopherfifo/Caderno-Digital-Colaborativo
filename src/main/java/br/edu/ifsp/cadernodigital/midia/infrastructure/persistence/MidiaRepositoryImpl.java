@@ -35,18 +35,8 @@ public class MidiaRepositoryImpl implements MidiaRepository {
     }
 
     @Override
-    public List<Midia> buscarPorDisciplina(String disciplina) {
-        return jpaRepository.findByDisciplinaContainingIgnoreCase(disciplina).stream().map(this::toDomain).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Midia> buscarPorProfessor(String professor) {
-        return jpaRepository.findByProfessorResponsavelContainingIgnoreCase(professor).stream().map(this::toDomain).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Midia> buscarPorDisciplinaEProfessor(String disciplina, String professor) {
-        return jpaRepository.findByDisciplinaContainingIgnoreCaseAndProfessorResponsavelContainingIgnoreCase(disciplina, professor).stream().map(this::toDomain).collect(Collectors.toList());
+    public List<Midia> buscarPorFiltros(String disciplina, String professor) {
+        return jpaRepository.buscarPorFiltros(disciplina, professor).stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     @Override

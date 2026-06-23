@@ -80,7 +80,7 @@ public class MidiaControllerTest {
 
     @Test
     void deveListarMidias() throws Exception {
-        Mockito.when(midiaService.listar(any(), any())).thenReturn(List.of(midiaResponse));
+        Mockito.when(midiaService.listar(any(), any(), any())).thenReturn(List.of(midiaResponse));
 
         mockMvc.perform(get("/api/midias"))
                 .andExpect(status().isOk())
