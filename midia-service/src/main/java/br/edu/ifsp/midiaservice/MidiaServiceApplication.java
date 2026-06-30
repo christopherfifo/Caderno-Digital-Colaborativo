@@ -1,0 +1,9 @@
+package br.edu.ifsp.midiaservice;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class MidiaServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MidiaServiceApplication.class, args);
+    }
+}

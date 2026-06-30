@@ -61,7 +61,8 @@ public class AvaliacaoController {
         );
 
         Avaliacao avaliacaoSalva = avaliacaoRepository.save(avaliacao);
-        pontuarAvaliacao(usuario, midia.getAutor(), request.nota());
+        Usuario autorMidia = buscarUsuario(midia.getAutorId());
+        pontuarAvaliacao(usuario, autorMidia, request.nota());
 
         return AvaliacaoResponse.fromEntity(avaliacaoSalva);
     }

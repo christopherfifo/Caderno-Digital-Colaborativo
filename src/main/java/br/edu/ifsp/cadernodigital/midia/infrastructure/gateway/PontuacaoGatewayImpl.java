@@ -3,7 +3,6 @@ package br.edu.ifsp.cadernodigital.midia.infrastructure.gateway;
 import br.edu.ifsp.cadernodigital.midia.application.gateway.PontuacaoGateway;
 import br.edu.ifsp.cadernodigital.service.PontuacaoService;
 import br.edu.ifsp.cadernodigital.repository.UsuarioRepository;
-import br.edu.ifsp.cadernodigital.model.Usuario;
 import org.springframework.stereotype.Component;
 
 @Component

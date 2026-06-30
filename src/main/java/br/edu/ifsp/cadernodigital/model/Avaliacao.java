@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaEntity;
 @Entity
 @Table(name = "avaliacoes")
 public class Avaliacao {
