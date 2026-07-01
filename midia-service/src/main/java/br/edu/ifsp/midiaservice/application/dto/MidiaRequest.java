@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public record MidiaRequest(
     @NotBlank String titulo,
     String descricao,
-    @NotBlank String urlArquivo,
+    String urlArquivo,
     @NotNull TipoMidia tipo,
     @NotNull LocalDateTime dataHoraAula,
     @NotBlank String disciplina,

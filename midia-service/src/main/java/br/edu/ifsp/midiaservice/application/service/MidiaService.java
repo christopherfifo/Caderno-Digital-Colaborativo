@@ -23,6 +23,10 @@ public class MidiaService {
 
     public MidiaResponse criar(MidiaRequest request) {
         usuarioGateway.validarAutorExistente(request.autorId());
+        if (request.tipo() != br.edu.ifsp.midiaservice.domain.model.TipoMidia.TEXTO 
+            && (request.urlArquivo() == null || request.urlArquivo().isBlank())) {
+            throw new IllegalArgumentException("URL do arquivo é obrigatória para este tipo de mídia.");
+        }
         Midia midia = new Midia(request.titulo(), request.descricao(), request.urlArquivo(),
             request.tipo(), request.dataHoraAula(), request.disciplina(),
             request.professorResponsavel(), request.autorId());
@@ -48,6 +52,10 @@ public class MidiaService {
         Midia midia = midiaRepository.buscarPorId(id)
             .orElseThrow(() -> new RecursoNaoEncontradoException("Mídia não encontrada."));
         usuarioGateway.validarAutorExistente(request.autorId());
+        if (request.tipo() != br.edu.ifsp.midiaservice.domain.model.TipoMidia.TEXTO 
+            && (request.urlArquivo() == null || request.urlArquivo().isBlank())) {
+            throw new IllegalArgumentException("URL do arquivo é obrigatória para este tipo de mídia.");
+        }
         midia.setTitulo(request.titulo());
         midia.setDescricao(request.descricao());
         midia.setUrlArquivo(request.urlArquivo());
