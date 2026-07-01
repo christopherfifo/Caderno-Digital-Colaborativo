@@ -14,20 +14,19 @@ public class UsuarioEntity {
     private String email;
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
-    private Integer pontos;
 
     public UsuarioEntity() {}
 
-    public UsuarioEntity(Long id, String nome, String email, TipoUsuario tipo, Integer pontos) {
-        this.id = id; this.nome = nome; this.email = email; this.tipo = tipo; this.pontos = pontos;
+    public UsuarioEntity(Long id, String nome, String email, TipoUsuario tipo) {
+        this.id = id; this.nome = nome; this.email = email; this.tipo = tipo;
     }
 
     public Usuario toDomain() {
-        return new Usuario(id, nome, email, tipo, pontos);
+        return new Usuario(id, nome, email, tipo);
     }
 
     public static UsuarioEntity fromDomain(Usuario u) {
-        return new UsuarioEntity(u.getId(), u.getNome(), u.getEmail(), u.getTipo(), u.getPontos());
+        return new UsuarioEntity(u.getId(), u.getNome(), u.getEmail(), u.getTipo());
     }
 
     public Long getId() { return id; }
@@ -38,6 +37,4 @@ public class UsuarioEntity {
     public void setEmail(String email) { this.email = email; }
     public TipoUsuario getTipo() { return tipo; }
     public void setTipo(TipoUsuario tipo) { this.tipo = tipo; }
-    public Integer getPontos() { return pontos; }
-    public void setPontos(Integer pontos) { this.pontos = pontos; }
 }
