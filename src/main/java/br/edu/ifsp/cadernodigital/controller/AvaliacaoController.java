@@ -5,12 +5,12 @@ import br.edu.ifsp.cadernodigital.dto.AvaliacaoResponse;
 import br.edu.ifsp.cadernodigital.exception.RecursoNaoEncontradoException;
 import br.edu.ifsp.cadernodigital.model.Avaliacao;
 import br.edu.ifsp.cadernodigital.model.Comentario;
-import br.edu.ifsp.cadernodigital.model.Midia;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaEntity;
 import br.edu.ifsp.cadernodigital.model.Usuario;
 import br.edu.ifsp.cadernodigital.model.enums.TipoAvaliacao;
 import br.edu.ifsp.cadernodigital.repository.AvaliacaoRepository;
 import br.edu.ifsp.cadernodigital.repository.ComentarioRepository;
-import br.edu.ifsp.cadernodigital.repository.MidiaRepository;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaJpaRepository;
 import br.edu.ifsp.cadernodigital.repository.UsuarioRepository;
 import br.edu.ifsp.cadernodigital.service.PontuacaoService;
 import jakarta.validation.Valid;
@@ -30,12 +30,12 @@ import java.util.List;
 public class AvaliacaoController {
 
     private final AvaliacaoRepository avaliacaoRepository;
-    private final MidiaRepository midiaRepository;
+    private final MidiaJpaRepository midiaRepository;
     private final ComentarioRepository comentarioRepository;
     private final UsuarioRepository usuarioRepository;
     private final PontuacaoService pontuacaoService;
 
-    public AvaliacaoController(AvaliacaoRepository avaliacaoRepository, MidiaRepository midiaRepository,
+    public AvaliacaoController(AvaliacaoRepository avaliacaoRepository, MidiaJpaRepository midiaRepository,
                                ComentarioRepository comentarioRepository, UsuarioRepository usuarioRepository,
                                PontuacaoService pontuacaoService) {
         this.avaliacaoRepository = avaliacaoRepository;
@@ -48,7 +48,7 @@ public class AvaliacaoController {
     @PostMapping("/midias/{midiaId}/avaliacoes")
     @ResponseStatus(HttpStatus.CREATED)
     public AvaliacaoResponse avaliarMidia(@PathVariable Long midiaId, @RequestBody @Valid AvaliacaoRequest request) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
         Usuario usuario = buscarUsuario(request.usuarioId());
 
         Avaliacao avaliacao = new Avaliacao(
@@ -61,14 +61,15 @@ public class AvaliacaoController {
         );
 
         Avaliacao avaliacaoSalva = avaliacaoRepository.save(avaliacao);
-        pontuarAvaliacao(usuario, midia.getAutor(), request.nota());
+        Usuario autorMidia = buscarUsuario(midia.getAutorId());
+        pontuarAvaliacao(usuario, autorMidia, request.nota());
 
         return AvaliacaoResponse.fromEntity(avaliacaoSalva);
     }
 
     @GetMapping("/midias/{midiaId}/avaliacoes")
     public List<AvaliacaoResponse> listarAvaliacoesDaMidia(@PathVariable Long midiaId) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
 
         return avaliacaoRepository.findByMidia(midia)
                 .stream()
@@ -116,7 +117,7 @@ public class AvaliacaoController {
         }
     }
 
-    private Midia buscarMidia(Long id) {
+    private MidiaEntity buscarMidia(Long id) {
         return midiaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Mídia não encontrada."));
     }

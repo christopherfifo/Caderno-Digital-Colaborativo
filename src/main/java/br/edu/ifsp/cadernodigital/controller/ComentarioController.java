@@ -4,10 +4,10 @@ import br.edu.ifsp.cadernodigital.dto.ComentarioRequest;
 import br.edu.ifsp.cadernodigital.dto.ComentarioResponse;
 import br.edu.ifsp.cadernodigital.exception.RecursoNaoEncontradoException;
 import br.edu.ifsp.cadernodigital.model.Comentario;
-import br.edu.ifsp.cadernodigital.model.Midia;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaEntity;
 import br.edu.ifsp.cadernodigital.model.Usuario;
 import br.edu.ifsp.cadernodigital.repository.ComentarioRepository;
-import br.edu.ifsp.cadernodigital.repository.MidiaRepository;
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaJpaRepository;
 import br.edu.ifsp.cadernodigital.repository.UsuarioRepository;
 import br.edu.ifsp.cadernodigital.service.PontuacaoService;
 import jakarta.validation.Valid;
@@ -27,11 +27,11 @@ import java.util.List;
 public class ComentarioController {
 
     private final ComentarioRepository comentarioRepository;
-    private final MidiaRepository midiaRepository;
+    private final MidiaJpaRepository midiaRepository;
     private final UsuarioRepository usuarioRepository;
     private final PontuacaoService pontuacaoService;
 
-    public ComentarioController(ComentarioRepository comentarioRepository, MidiaRepository midiaRepository,
+    public ComentarioController(ComentarioRepository comentarioRepository, MidiaJpaRepository midiaRepository,
                                 UsuarioRepository usuarioRepository, PontuacaoService pontuacaoService) {
         this.comentarioRepository = comentarioRepository;
         this.midiaRepository = midiaRepository;
@@ -42,7 +42,7 @@ public class ComentarioController {
     @PostMapping("/midias/{midiaId}/comentarios")
     @ResponseStatus(HttpStatus.CREATED)
     public ComentarioResponse comentar(@PathVariable Long midiaId, @RequestBody @Valid ComentarioRequest request) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
         Usuario autor = buscarUsuario(request.autorId());
 
         Comentario comentario = new Comentario(request.texto(), request.linkComplementar(), midia, autor, null);
@@ -54,7 +54,7 @@ public class ComentarioController {
 
     @GetMapping("/midias/{midiaId}/comentarios")
     public List<ComentarioResponse> listarComentariosDaMidia(@PathVariable Long midiaId) {
-        Midia midia = buscarMidia(midiaId);
+        MidiaEntity midia = buscarMidia(midiaId);
 
         return comentarioRepository.findByMidiaAndComentarioPaiIsNullOrderByCriadoEmAsc(midia)
                 .stream()
@@ -92,7 +92,7 @@ public class ComentarioController {
                 .toList();
     }
 
-    private Midia buscarMidia(Long id) {
+    private MidiaEntity buscarMidia(Long id) {
         return midiaRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Mídia não encontrada."));
     }

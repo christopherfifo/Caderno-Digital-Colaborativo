@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
+import br.edu.ifsp.cadernodigital.midia.infrastructure.persistence.MidiaEntity;
 @Entity
 @Table(name = "comentarios")
 public class Comentario {
@@ -26,7 +27,7 @@ public class Comentario {
 
     @ManyToOne
     @JoinColumn(name = "midia_id")
-    private Midia midia;
+    private MidiaEntity midia;
 
     @ManyToOne
     @JoinColumn(name = "autor_id")
@@ -39,7 +40,7 @@ public class Comentario {
     public Comentario() {
     }
 
-    public Comentario(String texto, String linkComplementar, Midia midia, Usuario autor, Comentario comentarioPai) {
+    public Comentario(String texto, String linkComplementar, MidiaEntity midia, Usuario autor, Comentario comentarioPai) {
         this.texto = texto;
         this.linkComplementar = linkComplementar;
         this.midia = midia;
@@ -80,11 +81,11 @@ public class Comentario {
         this.criadoEm = criadoEm;
     }
 
-    public Midia getMidia() {
+    public MidiaEntity getMidia() {
         return midia;
     }
 
-    public void setMidia(Midia midia) {
+    public void setMidia(MidiaEntity midia) {
         this.midia = midia;
     }
 

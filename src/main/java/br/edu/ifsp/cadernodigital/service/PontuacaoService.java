@@ -21,9 +21,6 @@ public class PontuacaoService {
         adicionarPontos(usuario, 5);
     }
 
-    public void pontuarMaterialComplementar(Usuario usuario) {
-        adicionarPontos(usuario, 7);
-    }
 
     public void pontuarAvaliacao(Usuario usuario) {
         adicionarPontos(usuario, 2);

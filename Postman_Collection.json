@@ -1,0 +1,115 @@
+{
+	"info": {
+		"_postman_id": "7dc2eb76-12c8-4a57-8106-9e9d6d5a1b32",
+		"name": "Caderno Digital Colaborativo - Microsserviços",
+		"description": "Coleção de endpoints para testar todos os 4 microsserviços.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Usuario Service (8081)",
+			"item": [
+				{
+					"name": "Criar Aluno",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Diego\",\n    \"email\": \"diego@ifsp.edu.br\",\n    \"tipo\": \"ALUNO\"\n}" },
+						"url": { "raw": "http://localhost:8081/api/usuarios", "protocol": "http", "host": [ "localhost" ], "port": "8081", "path": [ "api", "usuarios" ] }
+					}
+				},
+				{
+					"name": "Criar Professor",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n    \"nome\": \"Prof Carlos\",\n    \"email\": \"carlos@ifsp.edu.br\",\n    \"tipo\": \"PROFESSOR\"\n}" },
+						"url": { "raw": "http://localhost:8081/api/usuarios", "protocol": "http", "host": [ "localhost" ], "port": "8081", "path": [ "api", "usuarios" ] }
+					}
+				},
+				{
+					"name": "Listar Todos Usuários",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "http://localhost:8081/api/usuarios", "protocol": "http", "host": [ "localhost" ], "port": "8081", "path": [ "api", "usuarios" ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Midia Service (8082)",
+			"item": [
+				{
+					"name": "Enviar Mídia (Caderno)",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n    \"titulo\": \"Resumo de Cálculo 1\",\n    \"descricao\": \"Limites e Derivadas\",\n    \"urlArquivo\": \"https://link-do-pdf.com/resumo\",\n    \"tipo\": \"DOCUMENTO\",\n    \"dataHoraAula\": \"2023-11-01T14:00:00\",\n    \"disciplina\": \"Cálculo 1\",\n    \"professorResponsavel\": \"Prof Carlos\",\n    \"autorId\": 1\n}" },
+						"url": { "raw": "http://localhost:8082/api/midias", "protocol": "http", "host": [ "localhost" ], "port": "8082", "path": [ "api", "midias" ] }
+					}
+				},
+				{
+					"name": "Listar Mídias com Filtros",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "http://localhost:8082/api/midias?disciplina=Cálculo 1", "protocol": "http", "host": [ "localhost" ], "port": "8082", "path": [ "api", "midias" ], "query": [ { "key": "disciplina", "value": "Cálculo 1" } ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Interacao Service (8083)",
+			"item": [
+				{
+					"name": "Adicionar Comentário na Mídia",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n    \"texto\": \"Muito bom o material, ajudou muito!\",\n    \"linkComplementar\": \"\",\n    \"autorId\": 2\n}" },
+						"url": { "raw": "http://localhost:8083/api/midias/1/comentarios", "protocol": "http", "host": [ "localhost" ], "port": "8083", "path": [ "api", "midias", "1", "comentarios" ] }
+					}
+				},
+				{
+					"name": "Avaliar Mídia (5 Estrelas)",
+					"request": {
+						"method": "POST",
+						"header": [ { "key": "Content-Type", "value": "application/json" } ],
+						"body": { "mode": "raw", "raw": "{\n    \"usuarioId\": 2,\n    \"nota\": 5,\n    \"comentario\": \"Perfeito!\"\n}" },
+						"url": { "raw": "http://localhost:8083/api/midias/1/avaliacoes", "protocol": "http", "host": [ "localhost" ], "port": "8083", "path": [ "api", "midias", "1", "avaliacoes" ] }
+					}
+				},
+				{
+					"name": "Listar Comentários de uma Mídia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "http://localhost:8083/api/midias/1/comentarios", "protocol": "http", "host": [ "localhost" ], "port": "8083", "path": [ "api", "midias", "1", "comentarios" ] }
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Gamificacao Service (8084)",
+			"item": [
+				{
+					"name": "Ver Ranking Geral",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "http://localhost:8084/api/gamificacao/ranking", "protocol": "http", "host": [ "localhost" ], "port": "8084", "path": [ "api", "gamificacao", "ranking" ] }
+					}
+				},
+				{
+					"name": "Ver Pontos de um Usuário Específico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "http://localhost:8084/api/gamificacao/pontuacao/1", "protocol": "http", "host": [ "localhost" ], "port": "8084", "path": [ "api", "gamificacao", "pontuacao", "1" ] }
+					}
+				}
+			]
+		}
+	]
+}

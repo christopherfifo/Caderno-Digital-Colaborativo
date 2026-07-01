@@ -1,0 +1,76 @@
+services:
+
+  usuario-service:
+    build: ./usuario-service
+    container_name: usuario-service
+    ports:
+      - "8081:8081"
+    networks:
+      - caderno-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8081/api/usuarios"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  gamificacao-service:
+    build: ./gamificacao-service
+    container_name: gamificacao-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      usuario-service:
+        condition: service_healthy
+    networks:
+      - caderno-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8084/api/gamificacao/ranking"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  midia-service:
+    build: ./midia-service
+    container_name: midia-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      usuario-service:
+        condition: service_healthy
+      gamificacao-service:
+        condition: service_healthy
+    networks:
+      - caderno-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8082/api/midias"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  interacao-service:
+    build: ./interacao-service
+    container_name: interacao-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      usuario-service:
+        condition: service_healthy
+      midia-service:
+        condition: service_healthy
+      gamificacao-service:
+        condition: service_healthy
+    networks:
+      - caderno-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8083/api/midias/1/comentarios"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+networks:
+  caderno-net:
+    driver: bridge

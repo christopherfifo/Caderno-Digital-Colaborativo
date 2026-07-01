@@ -16,7 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findAllByOrderByPontosDesc();
 
     @Query("SELECT u FROM Usuario u " +
-           "WHERE u.id IN (SELECT m.autor.id FROM Midia m WHERE UPPER(m.disciplina) LIKE UPPER(CONCAT('%', :disciplina, '%'))) " +
+           "WHERE u.id IN (SELECT m.autorId FROM MidiaEntity m WHERE UPPER(m.disciplina) LIKE UPPER(CONCAT('%', :disciplina, '%'))) " +
            "OR u.id IN (SELECT c.autor.id FROM Comentario c WHERE UPPER(c.midia.disciplina) LIKE UPPER(CONCAT('%', :disciplina, '%'))) " +
            "ORDER BY u.pontos DESC")
     List<Usuario> findRankingByDisciplina(@Param("disciplina") String disciplina);
